@@ -44,11 +44,19 @@ app.use(
 app.use(logger());
 
 // ==== Routing ==========
-import signin from './routes/signin';
-app.use(signin.routes());
-
 const router = new Router();
-router.get('/', async (ctx) => {
+
+import signin from './routes/signin';
+router.use( signin.routes(), signin.allowedMethods());
+
+import api from './routes/api';
+router.use(api.routes(), api.allowedMethods());
+
+app.use(router.routes());
+
+
+const routerRoot = new Router();
+routerRoot.get('/', async (ctx) => {
     try {
         console.log(`http get /  ${__dirname}`);
         // ctx.type = 'html';
@@ -59,7 +67,7 @@ router.get('/', async (ctx) => {
         Util.setError(ctx, err);
     }
 })
-app.use(router.routes()); 
+app.use(routerRoot.routes()); 
 
 // ==== static public folder ======
 app.use(serve("./public", { index: 'none' })); // 靜態檔案。

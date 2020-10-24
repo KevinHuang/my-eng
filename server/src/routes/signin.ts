@@ -4,8 +4,9 @@ import { Util } from './util';
 import * as config from '../config.json';
 import got from 'got';
 
-const routerSignin = new Router();
-const routerSignInHandler = new Router();
+const routerSignInHandler = new Router({
+    prefix: '/signin'
+});
 
 routerSignInHandler.get('/:signinType/callback', async ctx => {
     try {
@@ -149,7 +150,8 @@ routerSignInHandler.get('/', ctx => {
     }
 });
 
-routerSignin.use('/signin', routerSignInHandler.routes());
+// const routerSignin = new Router();
+// routerSignin.use('/signin', routerSignInHandler.routes());
 
 
 //以上各種登入方式取得登入帳號的資料後都會統一將資料傳入這個function進行帳號資料建立
@@ -183,4 +185,4 @@ const finish = async (
 }
 
 
-export default routerSignin;
+export default routerSignInHandler;
