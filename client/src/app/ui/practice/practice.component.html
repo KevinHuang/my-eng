@@ -1,0 +1,37 @@
+<div>
+  <mat-card *ngIf="this.currentQ; else emptyQ">
+    <!-- 題號 -->
+    <div class="mb-2">
+      <button
+        class="rounded-circle mr-2"
+        *ngFor="let q of this.vocQuestions; let i= index"
+        (click)="setCurrentQ(i)"
+        [ngClass]="{'bg-warning': (this.currentIndex === i) }"
+      >
+        {{ (i + 1) }}
+      </button>
+    </div>
+
+    <!-- 選項-->
+    <!-- <mat-divider></mat-divider> -->
+
+    <mat-card-content>
+      <!-- 題目內容 -->
+      <mat-card-title>
+        <h1 class="fade show">{{ currentQ.content }}</h1>
+      </mat-card-title>
+      <mat-card-subtitle>{{ currentQ.pronunce }}</mat-card-subtitle>
+
+    </mat-card-content>
+    <!-- 動作按鈕 -->
+    <mat-divider></mat-divider>
+    <mat-card-actions class="d-flex justify-content-between">
+      <button mat-button>Privious</button>
+      <button mat-button>Next</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<ng-template #emptyQ>
+  <div>沒有題目！</div>
+</ng-template>

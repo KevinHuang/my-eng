@@ -1,0 +1,10 @@
+<mat-nav-list>
+  <a mat-list-item
+    [routerLink]="['/status']"
+    [ngClass]="{'btn': true, 'text-success': currentUrl.indexOf('/status') > -1}"
+    >我的狀態</a>
+  <a mat-list-item
+    [routerLink]="['/stage']"
+    [ngClass]="{'btn': true, 'text-success': currentUrl.indexOf('/stage') > -1}"
+    >過關挑戰</a>
+</mat-nav-list>

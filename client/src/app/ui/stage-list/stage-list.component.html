@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    <div
+      class="col-xs-12 col-md-6 col-lg-4 mb-3"
+      *ngFor="let stage of stages">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{ stage.title }}</mat-card-title>
+          <mat-card-subtitle>{{ stage.subtitle }}</mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img
+          mat-card-image
+          src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+          alt="Photo of a Shiba Inu"
+        /> -->
+        <mat-card-content>
+          <p>
+            {{ stage.description }}
+          </p>
+          <div>
+            單字 :
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <a class="btn" [routerLink]="[ stage.id , 'learn']">學習</a>
+          <a class="btn" [routerLink]="[ stage.id , 'practice']">自我練習</a>
+          <a class="btn" [routerLink]="[ stage.id , 'pk']">找人PK</a>
+
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<!-- <mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>Shiba Inu</mat-card-title>
+    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    <p>
+      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+      bred for hunting.
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card> -->
