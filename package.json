@@ -1,0 +1,18 @@
+{
+  "name": "my-eng",
+  "version": "1.0.0",
+  "description": "nancy 需要的英文測驗系統",
+  "main": "index.js",
+  "repository": "https://github.com/ischoolinc/hlc_phonetic",
+  "author": "Kevin Huang<kevinhuang.lds@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-filter": "^6.0.0",
+    "gulp-json-editor": "^2.5.2",
+    "gulp-print": "^5.0.2",
+    "gulp-rename": "^1.4.0",
+    "through2": "^3.0.1"
+  }
+}
