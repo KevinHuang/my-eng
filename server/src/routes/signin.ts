@@ -69,7 +69,6 @@ routerSignInHandler.get('/:signinType/callback', async ctx => {
         // ctx.response.body = JSON.stringify(tokenRsp);
         // return;
 
-
         try {
             var jwt = require('jsonwebtoken');
             var idTokenInfo = jwt.decode(tokenRsp.id_token);
@@ -166,6 +165,7 @@ const finish = async (
     , sso_email: string
 ) => {
     //1. 寫入 DB
+    
     //2. 寫入 session.
     const userInfo = {
         signinType: 'google',

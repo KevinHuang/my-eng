@@ -77,7 +77,7 @@ app.use(serve("./public", { index: 'none' })); // 靜態檔案。
 // start this app.
 const server = app
     .listen(PORT, async () => {
-        console.log(`Server listening on port: ${PORT}`);
+        console.log(`Server listening on port: ${PORT} ...`);
     })
     .on("error", err => {
         console.error(err);
