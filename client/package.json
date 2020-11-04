@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --disable-host-check --proxy-config proxy.config.json --host my-eng.appspot.com",
+    "mkcert": "mkcert my-eng.appspot.com",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

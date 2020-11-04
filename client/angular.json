@@ -63,7 +63,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "my-eng:build"
+            "browserTarget": "my-eng:build",
+            "ssl": true,
+            "sslCert": "./my-eng.appspot.com.pem",
+            "sslKey": "./my-eng.appspot.com-key.pem"
           },
           "configurations": {
             "production": {
