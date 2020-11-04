@@ -8,3 +8,5 @@ tmp/
 temp/
 coverage/*
 config.json
+/dist/*
+yarn.lock
