@@ -15,7 +15,6 @@ import {MatMenuModule} from '@angular/material/menu';
 
 
 
-
 import { MenuComponent } from './ui/menu/menu.component';
 import { StatusComponent } from './ui/status/status.component';
 import { QuizComponent } from './ui/quiz/quiz.component';
@@ -25,6 +24,7 @@ import { StageListComponent } from './ui/stage-list/stage-list.component';
 import { PracticeComponent } from './ui/practice/practice.component';
 import { PkComponent } from './ui/pk/pk.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CheckSignInComponent } from './ui/auth/check-sign-in/check-sign-in.component';
 
 
 
@@ -41,7 +41,8 @@ import { HttpClientModule } from '@angular/common/http';
     LearnComponent,
     StageListComponent,
     PracticeComponent,
-    PkComponent
+    PkComponent,
+    CheckSignInComponent
   ],
   imports: [
     BrowserModule,
