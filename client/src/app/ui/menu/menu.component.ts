@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -8,7 +8,9 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class MenuComponent implements OnInit {
 
-  currentUrl = '';;
+  currentUrl = '';
+
+  @Input() hasSignIn = false ;
 
   constructor(
     private router: Router
