@@ -1,3 +1,6 @@
 node_modules
 build
 docker/dist
+yarn.lock
+*.lock
+server/yarn.lock
