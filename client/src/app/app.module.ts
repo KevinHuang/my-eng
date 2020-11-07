@@ -24,6 +24,7 @@ import { LearnComponent } from './ui/learn/learn.component';
 import { StageListComponent } from './ui/stage-list/stage-list.component';
 import { PracticeComponent } from './ui/practice/practice.component';
 import { PkComponent } from './ui/pk/pk.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -46,6 +47,7 @@ import { PkComponent } from './ui/pk/pk.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,

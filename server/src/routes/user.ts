@@ -4,9 +4,13 @@ import Router from "koa-router";
 const routerUser = new Router();
 
 routerUser.get('/my_info', ctx => {
-    ctx.body = {
-        result: ctx.session ? ctx.session.userInfo : undefined
-    }
+    ctx.body =  ctx.session ? ctx.session.userInfo : {}
+    
+});
+
+routerUser.get('/signout', ctx => {
+    ctx.session = null ;
+    ctx.body = { result: "OK"};
 });
 
 
