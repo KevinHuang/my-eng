@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { UserInfo, UserService } from './service/user.service';
 import { ChangeDetectorRef, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
@@ -24,8 +25,10 @@ export class AppComponent implements OnInit {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
+
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     // tslint:disable-next-line: deprecation
@@ -34,9 +37,15 @@ export class AppComponent implements OnInit {
 
   // tslint:disable-next-line: typedef
   async ngOnInit() {
+    console.log('app.component.....');
     this.userInfo = await this.userService.getMyInfo().toPromise();
     if (this.userInfo && this.userInfo.user_id ) {
       this.hasSignIn = true;
+      this.userService.setUserInfo(this.userInfo);
+      this.userService.hasSignedIn = this.hasSignIn ;
+      console.log(`app.ngOnInit : ${this.userService.hasSignedIn}`);
+    } else {
+      this.router.navigate([ '/checkSignIn']);
     }
   }
 
