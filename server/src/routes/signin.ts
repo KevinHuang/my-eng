@@ -3,6 +3,7 @@ import Router from 'koa-router';
 import { Util } from './util';
 import * as config from '../config.json';
 import got from 'got';
+import { UserHelper } from '../dal/user_helper';
 
 const routerSignInHandler = new Router({
     prefix: '/signin'
@@ -165,9 +166,11 @@ const finish = async (
     , sso_email: string
 ) => {
     //1. 寫入 DB
+    const user = await UserHelper.addUser(sso_source, sso_identity, sso_refresh_token, sso_user_name, sso_first_name, sso_last_name, sso_email);
     
     //2. 寫入 session.
     const userInfo = {
+        id: user.id,
         signinType: 'google',
         email: sso_email,
         given_name: sso_first_name,
@@ -178,6 +181,8 @@ const finish = async (
     if (ctx.session) {
         ctx.session.userInfo = userInfo;
     }
+
+    // console.log(ctx.session?.userInfo);
 
     //3. redirect back to client.
     ctx.redirect("/");
