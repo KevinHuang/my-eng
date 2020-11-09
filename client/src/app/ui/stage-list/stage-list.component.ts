@@ -1,5 +1,5 @@
-import { ActivatedRoute } from '@angular/router';
-import { StageRecord, StageService } from './../../service/stage.service';
+import { TopicInfo, QuizService } from './../../service/quiz.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,14 +9,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StageListComponent implements OnInit {
 
-  stages: StageRecord[];
+  topics: TopicInfo[];
+  groups: string[] = [];
+  dicTopicsByGroup: {[grpName: string]: TopicInfo[]} = {};
 
   constructor(
-    private stageService: StageService,
+    private quizService: QuizService ,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
-    this.stages = this.stageService.getStages();
+  // tslint:disable-next-line:typedef
+  async ngOnInit() {
+    this.topics = await this.quizService.getMyTopics().toPromise();
+    this.parseTopics();
+  }
+
+  parseTopics(): void {
+    this.groups = [];
+    this.dicTopicsByGroup = {};
+    this.topics.forEach(topic => {
+      if (!this.dicTopicsByGroup[topic.group_name]) {
+        this.dicTopicsByGroup[topic.group_name] = [];
+        this.groups.push(topic.group_name);
+      }
+      this.dicTopicsByGroup[topic.group_name].push(topic);
+    });
+  }
+
+  showTopic(topic: TopicInfo): void {
+    console.log(topic);
+    this.router.navigate([ topic.topic_uuid ], { relativeTo: this.route });
   }
 
 }

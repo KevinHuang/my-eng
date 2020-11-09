@@ -1,13 +1,14 @@
-<div class="container">
-  <div class="row">
-    <div
-      class="col-xs-12 col-md-6 col-lg-4 mb-3"
-      *ngFor="let stage of stages">
-      <mat-card class="example-card">
+<div class="container" *ngFor="let grp of groups">
+  <h2>{{ grp }}</h2>
+  <mat-divider></mat-divider><br/>
+  <div class="row" >
+    <div class="col-xs-12 col-md-6 col-lg-4 mb-3" *ngFor="let topic of dicTopicsByGroup[grp]">
+      <mat-card class="example-card topic"
+        (click)="showTopic(topic)">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{ stage.title }}</mat-card-title>
-          <mat-card-subtitle>{{ stage.subtitle }}</mat-card-subtitle>
+          <mat-card-title>{{ topic.topic_name }}</mat-card-title>
+          <!-- <mat-card-subtitle>{{ topic.subtitle }}</mat-card-subtitle> -->
         </mat-card-header>
         <!-- <img
           mat-card-image
@@ -16,18 +17,19 @@
         /> -->
         <mat-card-content>
           <p>
-            {{ stage.description }}
+            {{ topic.description }}
           </p>
           <div>
-            單字 :
+            完成單元 :
             <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <a class="btn" [routerLink]="[ stage.id , 'learn']">學習</a>
-          <a class="btn" [routerLink]="[ stage.id , 'practice']">自我練習</a>
-          <a class="btn" [routerLink]="[ stage.id , 'pk']">找人PK</a>
-
+          <a class="btn" [routerLink]="[topic.topic_id, 'learn']">學習</a>
+          <a class="btn" [routerLink]="[topic.topic_id, 'practice']"
+            >自我練習</a
+          >
+          <a class="btn" [routerLink]="[topic.topic_id, 'pk']">找人PK</a>
         </mat-card-actions>
       </mat-card>
     </div>
