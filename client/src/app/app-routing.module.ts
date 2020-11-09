@@ -1,3 +1,4 @@
+import { QuizsheetComponent } from './ui/quizsheet/quizsheet.component';
 import { AuthGuard } from './ui/auth/auth.guard';
 import { PkComponent } from './ui/pk/pk.component';
 import { PracticeComponent } from './ui/practice/practice.component';
@@ -14,17 +15,17 @@ const routes: Routes = [
   { path: 'checkSignIn', component: CheckSignInComponent },
   { path: 'status', component: StatusComponent },
   {
-    path: 'topic', component: StageComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {path: ':topicid/learn', component:  LearnComponent},
-      {path: ':topicid/practice', component:  PracticeComponent},
-      {path: ':topicid/pk', component:  PkComponent},
-      {path: ':topicid', component:  LearnComponent},
-      {path: '', component:  StageListComponent},
-    ]
+    path: 'topic', component: StageListComponent,
+    canActivate: [AuthGuard]
   },
-  { path: 'quiz', component: QuizComponent },
+  {
+    path: 'quizsheet/:qsid', component: QuizsheetComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'quiz', component: QuizComponent,
+    canActivate: [AuthGuard]
+  },
   { path: '', redirectTo: '/status', pathMatch: 'full' },
 ];
 
