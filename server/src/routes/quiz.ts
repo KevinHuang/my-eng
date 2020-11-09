@@ -15,4 +15,15 @@ subRouter.get('/getMyTopics', async ctx => {
     }
 });
 
+subRouter.get('/getMyQuizProgress', async ctx => {
+    const userInfo = ctx.session?.userInfo;
+    try {
+        const result = await QuizHelper.get_my_quiz_progress(userInfo.id);
+        ctx.body = result;
+    } catch (error) {
+        ctx.status = 500 ;
+        ctx.body = error ;
+    }
+});
+
 export default subRouter ;
