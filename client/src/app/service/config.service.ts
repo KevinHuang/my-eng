@@ -25,9 +25,9 @@ export class ConfigService {
     return `${this.API_BASE}/user`;
   }
 
-  /** 讀取 檔案庫素材 的 url。 */
-  public get API_STORAGE_BASE(): string {
-    return `${this.API_BASE}/storage/public`;
+  /** 測驗功能 API url。 */
+  public get API_QUIZ_BASE(): string {
+    return `${this.API_BASE}/quiz`;
   }
 
 
