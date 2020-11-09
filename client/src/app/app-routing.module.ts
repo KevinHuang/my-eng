@@ -14,13 +14,13 @@ const routes: Routes = [
   { path: 'checkSignIn', component: CheckSignInComponent },
   { path: 'status', component: StatusComponent },
   {
-    path: 'stage', component: StageComponent,
+    path: 'topic', component: StageComponent,
     canActivate: [AuthGuard],
     children: [
-      {path: ':stageid/learn', component:  LearnComponent},
-      {path: ':stageid/practice', component:  PracticeComponent},
-      {path: ':stageid/pk', component:  PkComponent},
-      {path: ':stageid/', component:  LearnComponent},
+      {path: ':topicid/learn', component:  LearnComponent},
+      {path: ':topicid/practice', component:  PracticeComponent},
+      {path: ':topicid/pk', component:  PkComponent},
+      {path: ':topicid', component:  LearnComponent},
       {path: '', component:  StageListComponent},
     ]
   },
