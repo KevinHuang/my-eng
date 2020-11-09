@@ -54,10 +54,11 @@ export class QuizHelper {
                 qs.id quiz_sheet_id,
                 qs.name quiz_sheet_name, 
                 qs.ref_topic_id topic_id,
-                qs.sheet_order,
-                q_count.total_count,
-            	coalesce(q_count.total_count, 0) as total_count,
-                coalesce(qz.right_count, 0) as right_count,
+                qs.sheet_order quiz_sheet_order,
+                qs.uuid quiz_sheet_uuid,
+                -- q_count.total_count,
+            	coalesce(q_count.total_count, 0) as question_total_count,
+                coalesce(qz.right_count, 0) as question_right_count,
                 coalesce(qz.history, '[]'::JSON) as history,
                 CASE WHEN q_count.total_count = qz.right_count THEN true ELSE false END AS is_pass
             FROM

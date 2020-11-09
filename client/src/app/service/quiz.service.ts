@@ -19,10 +19,10 @@ export class QuizService {
   /** 取得我的主題清單 */
   public getMyTopics(): Observable<TopicInfo[]> {
 
-      const url = `${this.config.API_QUIZ_BASE}/getMyTopics`;
-      return this.http.get(url).pipe(
-        map(v => (v as TopicInfo[]))
-      );
+    const url = `${this.config.API_QUIZ_BASE}/getMyTopics`;
+    return this.http.get(url).pipe(
+      map(v => (v as TopicInfo[]))
+    );
   }
 
   /** 取得我的個人資訊 */
@@ -32,12 +32,12 @@ export class QuizService {
     return this.http.get(url).pipe(
       map(v => (v as QuizProgressInfo[]))
     );
-}
+  }
 }
 
 export interface TopicInfo {
   group_name: string;
-  topic_id: number ;
+  topic_id: number;
   topic_name: string;
   description: string;
   topic_uuid: string;
@@ -48,10 +48,11 @@ export interface TopicInfo {
 export interface QuizProgressInfo {
   quiz_sheet_id: string;
   quiz_sheet_name: string;
+  quiz_sheet_uuid: string;
   topic_id: string;
-  sheet_order: number;
-  total_count: number;
-  right_count: number;
+  quiz_sheet_order: number;
+  question_total_count: number;
+  question_right_count: number;
   history: [];
   is_pass: boolean;
 }
