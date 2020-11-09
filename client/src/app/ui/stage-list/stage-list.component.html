@@ -1,8 +1,11 @@
 <div class="container" *ngFor="let grp of groups">
   <h2>{{ grp }}</h2>
-  <mat-divider></mat-divider><br/>
-  <div class="row" >
-    <div class="col-xs-12 col-md-6 col-lg-4 mb-3" *ngFor="let topic of dicTopicsByGroup[grp]">
+  <mat-divider></mat-divider><br />
+  <div class="row">
+    <div
+      class="col-xs-12 col-md-6 col-lg-4 mb-3"
+      *ngFor="let topic of dicTopicsByGroup[grp]"
+    >
       <mat-card class="example-card topic">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
@@ -18,17 +21,34 @@
           <p>
             {{ topic.description }}
           </p>
-          <div>
-            完成單元 ( {{ topic.quiz_sheet_pass_count}} / {{ topic.quiz_progress.length}} ):
-            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-          </div>
-          <div>
-            <ol>
-              <li *ngFor="let qs of topic.quiz_progress ">
-                <a mat-flat-button (click)="showQuizSheet(qs);">{{qs.quiz_sheet_name}} ( {{ qs.right_count }} / {{ qs.total_count }} ) </a>
-              </li>
-            </ol>
-          </div>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+            class="expansion_panel_no_border"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <div class="expansion_panel_full_progress">
+                  完成單元 ( {{ topic.quiz_sheet_pass_count }} /
+                  {{ topic.quiz_progress.length }} ):
+                  <mat-progress-bar
+                    mode="determinate"
+                    value="40"
+                  ></mat-progress-bar>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              <ol>
+                <li *ngFor="let qs of topic.quiz_progress">
+                  <a mat-flat-button (click)="showQuizSheet(qs)"
+                    >{{ qs.quiz_sheet_name }} ( {{ qs.question_right_count }} /
+                    {{ qs.question_total_count }} )
+                  </a>
+                </li>
+              </ol>
+            </div>
+          </mat-expansion-panel>
         </mat-card-content>
         <mat-card-actions>
           <a class="btn" [routerLink]="[topic.topic_id, 'learn']">學習</a>

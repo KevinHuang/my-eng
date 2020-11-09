@@ -16,6 +16,8 @@ export class StageListComponent implements OnInit {
   quizsheets: QuizProgressInfo[] = [];
   dicQuizSheetsByTopic: {[topic_id: string]: QuizProgressInfo[]} = {};
 
+  panelOpenState = false;
+
   constructor(
     private quizService: QuizService ,
     private router: Router,

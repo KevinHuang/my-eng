@@ -12,6 +12,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 
 
@@ -56,7 +58,8 @@ import { CheckSignInComponent } from './ui/auth/check-sign-in/check-sign-in.comp
     MatButtonModule,
     MatCardModule,
     MatProgressBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

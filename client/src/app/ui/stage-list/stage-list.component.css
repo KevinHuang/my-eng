@@ -2,8 +2,11 @@
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
 }
-/*
-mat-card.topic:hover {
-  cursor: pointer;
-  background-color: rgba(255, 255, 0, 0.03);;
-} */
+
+.expansion_panel_no_border {
+  box-shadow: none;
+}
+
+div.expansion_panel_full_progress {
+  flex-grow: inherit;
+}
