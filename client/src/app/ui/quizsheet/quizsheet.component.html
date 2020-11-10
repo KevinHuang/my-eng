@@ -1,15 +1,18 @@
 <a mat-list-item
     [routerLink]="['/topic']"
     > &lt; &nbsp;&nbsp; 主題清單</a>
-<h2 class="pt-4">{{ this.currentQuizSheet.quiz_sheet_name }}</h2>
-<div class="d-flex flex-row">
+<h2 class="pt-3">{{ this.currentQuizSheet.quiz_sheet_name }}</h2>
+<div class="d-flex flex-row align-items-center">
   <div class="p-2 d-flex flex-column col-4">
     <h6>總題數：{{this.currentQuizSheet.question_total_count }}</h6>
     <h6>答對數：{{this.currentQuizSheet.question_right_count }}</h6>
   </div>
-  <div class="p-2 col-8 d-flex flex-row justify-content-end">
+
+  <div class="p-2 col-8 d-flex flex-row justify-content-between">
     <!-- <button mat-stroked-button class="mr-1" color="accent">錯題練習</button> -->
-    <button mat-stroked-button color="primary" style="font-size: 1.1rem;">開始測驗</button>
+    <div></div>
+    <mat-icon *ngIf="this.currentQuizSheet.is_pass" class="white-icon" style="font-size: 2rem;">check_circle</mat-icon>
+    <button mat-stroked-button color="primary" style="font-size: 1.1rem;" (click)="startQuiz()">開始測驗</button>
   </div>
 </div>
 <mat-divider class="mt-2"></mat-divider>

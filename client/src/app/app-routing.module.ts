@@ -23,7 +23,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'quiz', component: QuizComponent,
+    path: 'quizsheet/:qsid/start', component: QuizComponent,
     canActivate: [AuthGuard]
   },
   { path: '', redirectTo: '/status', pathMatch: 'full' },

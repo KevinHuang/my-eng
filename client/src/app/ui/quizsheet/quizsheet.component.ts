@@ -1,6 +1,6 @@
 import { QuizProgressInfo, QuizService } from './../../service/quiz.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-quizsheet',
@@ -15,6 +15,7 @@ export class QuizsheetComponent implements OnInit {
   constructor(
     private quizService: QuizService,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -30,6 +31,10 @@ export class QuizsheetComponent implements OnInit {
         });
       });
     }
+  }
+
+  startQuiz(): void {
+    this.router.navigate(['start'], { relativeTo: this.route});
   }
 
 }
