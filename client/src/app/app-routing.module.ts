@@ -26,7 +26,7 @@ const routes: Routes = [
     path: 'quizsheet/:qsid/start', component: QuizComponent,
     canActivate: [AuthGuard]
   },
-  { path: '', redirectTo: '/status', pathMatch: 'full' },
+  { path: '', redirectTo: '/topic', pathMatch: 'full' },
 ];
 
 @NgModule({
