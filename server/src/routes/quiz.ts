@@ -26,4 +26,18 @@ subRouter.get('/getMyQuizProgress', async ctx => {
     }
 });
 
+subRouter.get('/getQuizProgress', async ctx => {
+    
+    try {
+        const { quizsheet_uuid } = ctx.query;
+        if (!quizsheet_uuid) { throw '沒有 quizsheet uuid' }
+        const userInfo = ctx.session?.userInfo;
+        const result = await QuizHelper.get_quiz_progress(userInfo.id, quizsheet_uuid);
+        ctx.body = result;
+    } catch (error) {
+        ctx.status = 500 ;
+        ctx.body = error ;
+    }
+});
+
 export default subRouter ;

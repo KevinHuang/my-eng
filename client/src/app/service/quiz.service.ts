@@ -9,11 +9,26 @@ import { ConfigService } from './config.service';
 })
 export class QuizService {
 
+  currentQuizSheet: QuizProgressInfo;
+
   constructor(
     private http: HttpClient,
     private config: ConfigService
   ) { }
 
+  getCurrentQuizSheet(): QuizProgressInfo {
+    return this.currentQuizSheet ;
+  }
+  setCurrentQuizSheet( quizsheet: QuizProgressInfo): void {
+    this.currentQuizSheet = quizsheet ;
+  }
+
+  public getQuizProgress(quizsheetUUID: string): Observable<QuizProgressInfo> {
+    const url = `${this.config.API_QUIZ_BASE}/getQuizProgress?quizsheet_uuid=${quizsheetUUID}`;
+    return this.http.get(url).pipe(
+      map(v => (v as QuizProgressInfo))
+    );
+  }
 
 
   /** 取得我的主題清單 */

@@ -66,13 +66,14 @@ export class StageListComponent implements OnInit {
     });
   }
 
-  showTopic(topic: TopicInfo): void {
-    console.log(topic);
-    this.router.navigate([ topic.topic_uuid ], { relativeTo: this.route });
-  }
+  // showTopic(topic: TopicInfo): void {
+  //   console.log(topic);
+  //   this.router.navigate([ topic.topic_uuid ], { relativeTo: this.route });
+  // }
 
   showQuizSheet(qs: QuizProgressInfo): void {
     console.log(qs);
+    this.router.navigate([ 'quizsheet', qs.quiz_sheet_uuid ]);
   }
 
 }
