@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@types/uuid": "^8.3.0",
     "got": "^11.8.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
@@ -13,10 +14,12 @@
     "koa-session": "^6.1.0",
     "koa-static": "^5.0.0",
     "koa2-cors": "^2.0.5",
+    "moment": "^2.29.1",
     "pg-promise": "^10.7.0",
     "pm2": "^2.8.0",
     "redis": "^2.8.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@types/jest": "^23.3.14",

@@ -1,5 +1,6 @@
 
 import { connection } from './database';
+import * as moment from 'moment';
 
 export class QuizHelper {
     /** 
@@ -59,7 +60,7 @@ export class QuizHelper {
                 -- q_count.total_count,
             	coalesce(q_count.total_count, 0) as question_total_count,
                 coalesce(qz.right_count, 0) as question_right_count,
-                coalesce(qz.history, '[]'::JSON) as history,
+                coalesce(qz.history, '[]'::jsonb) as history,
                 CASE WHEN q_count.total_count = qz.right_count THEN true ELSE false END AS is_pass
             FROM
                 quiz_sheet qs 
@@ -101,7 +102,7 @@ export class QuizHelper {
                 -- q_count.total_count,
             	coalesce(q_count.total_count, 0) as question_total_count,
                 coalesce(qz.right_count, 0) as question_right_count,
-                coalesce(qz.history, '[]'::JSON) as history,
+                coalesce(qz.history, '[]'::jsonb) as history,
                 CASE WHEN q_count.total_count = qz.right_count THEN true ELSE false END AS is_pass
             FROM
                 quiz_sheet qs 
@@ -118,5 +119,234 @@ export class QuizHelper {
         console.log(sql);
         return connection.oneOrNone(sql);
     }
+
+    public static getQuiz(member_id: number, quizsheet_uuid: string): Promise<any> {
+        const sql = `select * from quiz where ref_member_id=$1 and ref_quiz_sheet_id in (select id from quiz_sheet where uuid= $2)`;
+
+        console.log(sql);
+        return connection.oneOrNone(sql, [member_id, quizsheet_uuid]);
+    }
+
+    /** 建立一個學生對指定試卷的考試紀錄 */
+    public static newQuiz(member_id: number, quizsheet_uuid: string, quiz_uuid: string): Promise<any> {
+        const moment = require('moment');
+        const sql = `
+            WITH q AS (
+                SELECT
+                    count(id) as q_count,
+                    ref_quiz_sheet_id
+                FROM
+                    question
+                WHERE
+                    ref_quiz_sheet_id in (SELECT id FROM quiz_sheet WHERE uuid='${quizsheet_uuid}')
+                GROUP BY ref_quiz_sheet_id
+            )
+            
+            INSERT INTO public.quiz(
+                ref_member_id, ref_quiz_sheet_id, current_uuid, total_count, right_count, history, last_update)
+            SELECT
+                ${member_id} as ref_member_id,
+                q.ref_quiz_sheet_id,
+                '${quiz_uuid}' as current_uuid,
+                q.q_count total_count,
+                0 as right_count,
+                '[{"uuid" : "${quiz_uuid}", "occur_at": "${moment().format()}"}]'::jsonb ,
+                now() as last_update
+            FROM q
+            RETURNING * ;
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql, [member_id, quizsheet_uuid]);
+    }
+
+    /** 一個學生對指定試卷，新增一筆考試紀錄 */
+    public static addQuiz(member_id: number, quizsheet_uuid: string, quiz_uuid: string): Promise<any> {
+        const moment = require('moment');
+        const sql = `
+            UPDATE public.quiz
+            SET current_uuid = '${quiz_uuid}',
+                history = history || '[{"uuid": "${quiz_uuid}", "occur_at" : "${moment().format()}"}]'::jsonb ,
+                last_update = now()
+            WHERE
+                ref_member_id = ${member_id} 
+                AND
+                ref_quiz_sheet_id IN (SELECT id FROM quiz_sheet WHERE uuid='${quizsheet_uuid}')
+            RETURNING * ;
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql, [member_id, quizsheet_uuid]);
+    }
     
+    /** 
+     * 取得指定試卷的考題 
+     * 技術參考：https://levelup.gitconnected.com/how-to-query-a-json-array-of-objects-as-a-recordset-in-postgresql-a81acec9fbc5
+     * */
+    public static getQuesions(quizsheet_uuid: string, quiz_uuid: string): Promise<any> {
+        
+        const sql = `
+        WITH questions AS (
+            SELECT *
+            FROM question
+            WHERE ref_quiz_sheet_id IN ( SELECT id FROM quiz_sheet WHERE uuid = $1)
+        )
+        
+        , answers AS (
+            SELECT 
+                *
+            FROM 
+                answer,
+                jsonb_to_recordset(answer.history) as items(quiz_uuid text, ans smallint)
+            WHERE 
+                ref_member_id = 3
+                AND
+                quiz_uuid = $2
+        )
+        
+        SELECT 
+            questions.*,
+            article.content article_content,
+            answers.quiz_uuid ,
+            answers.ans user_answer
+        FROM 
+            questions 
+            LEFT OUTER JOIN answers ON questions.id = answers.ref_question_id
+            LEFT OUTER JOIN article ON questions.ref_article_id = article.id
+        ORDER BY 
+            questions.q_order
+            
+        `;
+
+        console.log(sql);
+        return connection.manyOrNone(sql, [quizsheet_uuid, quiz_uuid]);
+    }
+
+    public static getQuesion(question_id: string): Promise<any> {
+        
+        const sql = `
+        SELECT 
+            *
+        FROM 
+            question
+        WHERE
+            id= $1
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql, [question_id]);
+    }
+
+    public static getUserAnswer(quiz_uuid: string, question_id: string, member_id: string): Promise<any> {
+        
+        const sql = `
+            select 
+                id, 
+                ref_question_id,
+                ref_member_id,
+                answer,
+                value
+            from
+                answer ans,
+                jsonb_array_elements(history)
+            where 
+                ref_member_id = ${member_id}
+                and
+                ref_question_id = ${question_id}
+                and
+                value ->> 'quiz_uuid' = '${quiz_uuid}'
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql);
+    }
+
+    public static updateUserAnswer(quiz_uuid: string, question_id: string, member_id: string, ans: string, is_correct: boolean): Promise<any> {
+        
+        const sql = `
+            UPDATE answer ans
+            SET history = jsonb_set(
+                    history,
+                    array[
+                        (select ord - 1 from jsonb_array_elements(history) WITH ORDINALITY arr(opt, ord) where opt ->> 'quiz_uuid' = '${quiz_uuid}')::text,
+                        'ans'
+                    ],
+                    '${ans}'::jsonb)
+                , is_corrent=${is_correct}
+            WHERE 
+                ans.ref_question_id = ${question_id}
+                AND
+                ans.ref_member_id = ${member_id}
+            RETURNING * ;
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql);
+    }
+
+    public static addUserAnswer(quiz_uuid: string, question_id: string, member_id: string, ans: string, is_correct:boolean): Promise<any> {
+        const moment = require('moment');
+        const sql = `
+            INSERT INTO answer (ref_question_id, ref_member_id, answer, is_correct, last_update, history) VALUES
+            ( ${question_id}, ${member_id}, '${ans}', ${is_correct}, now(),
+            '[{"quiz_uuid":"${quiz_uuid}", "ans": "${ans}", "ans_time":"${moment().format()}"}]'::jsonb )
+            RETURNING *;
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql);
+    }
+
+    public static updateQuizStatus(quiz_uuid: string, quizsheet_id: string, member_id: string): Promise<any> {
+        const moment = require('moment');
+        const sql = `
+        WITH answer_status AS (
+            SELECT 
+                ${quizsheet_id}::bigint AS quiz_sheet_id,
+                ${member_id}::bigint AS member_id,
+                A.total_question_count,
+                B.right_count
+            FROM (
+                select 
+                    count(question.id) as total_question_count
+                from 
+                    question 
+                where
+                    ref_quiz_sheet_id = ${quizsheet_id} ) AS A
+            CROSS JOIN
+                (
+                select 
+                    count(id) total_count,
+                    sum( case when is_correct then 1 else 0 end ) as right_count
+                from answer ans,
+                    jsonb_array_elements(history)
+                where
+                    value ->> 'quiz_uuid'='${quiz_uuid}'
+                    AND ref_member_id = ${member_id} ) AS B
+        ),
+            
+        update_data AS (
+            UPDATE quiz
+            SET 
+                total_count = answer_status.total_question_count,
+                right_count = answer_status.right_count,
+                last_update = now()
+            FROM
+                answer_status
+            WHERE 
+                ref_member_id = answer_status.member_id 
+                AND
+                ref_quiz_sheet_id = answer_status.quiz_sheet_id
+            
+            RETURNING * 
+        )
+            
+        SELECT * FROM update_data ;
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql);
+    }
+
+
 }
