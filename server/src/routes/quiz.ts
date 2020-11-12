@@ -99,12 +99,28 @@ subRouter.post('/setAnswer', async ctx => {
         // 3. 比對答案，判斷是否答對。
         const is_correct = ( q.answer.toString() === ans );
         // 4. 判斷此題是否已經作答過
+        let hasAnswered = false ;
         const ansHistory = await QuizHelper.getUserAnswer(quiz_uuid, question_id, userInfo.id);
         if (ansHistory) {
-            await QuizHelper.updateUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
+            console.log(ansHistory);
+            ansHistory.history.forEach((ansHis: { quiz_uuid: any; }) => {
+                if (ansHis.quiz_uuid === quiz_uuid) {
+                    hasAnswered = true;
+                }
+            });
+            if (hasAnswered) {
+                await QuizHelper.updateUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
+            } else {
+                await QuizHelper.appendUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
+            }
         } else {
-            await QuizHelper.addUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
+            await QuizHelper.createUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
         }
+        // if (hasAnswered) {
+        //     await QuizHelper.updateUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
+        // } else {
+        //     await QuizHelper.addUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
+        // }
         // 5. 更新試卷的答對率
         await QuizHelper.updateQuizStatus(quiz_uuid, quiz.ref_quiz_sheet_id, userInfo.id);
         ctx.body = { result: "OK" };

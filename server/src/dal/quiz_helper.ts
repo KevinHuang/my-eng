@@ -245,16 +245,13 @@ export class QuizHelper {
                 ref_question_id,
                 ref_member_id,
                 answer,
-                value
+                history
             from
-                answer ans,
-                jsonb_array_elements(history)
+                answer ans
             where 
                 ref_member_id = ${member_id}
                 and
                 ref_question_id = ${question_id}
-                and
-                value ->> 'quiz_uuid' = '${quiz_uuid}'
         `;
 
         console.log(sql);
@@ -272,7 +269,8 @@ export class QuizHelper {
                         'ans'
                     ],
                     '${ans}'::jsonb)
-                , is_corrent=${is_correct}
+                , is_correct=${is_correct}
+                , last_update = now()
             WHERE 
                 ans.ref_question_id = ${question_id}
                 AND
@@ -284,7 +282,25 @@ export class QuizHelper {
         return connection.oneOrNone(sql);
     }
 
-    public static addUserAnswer(quiz_uuid: string, question_id: string, member_id: string, ans: string, is_correct:boolean): Promise<any> {
+    public static appendUserAnswer(quiz_uuid: string, question_id: string, member_id: string, ans: string, is_correct:boolean): Promise<any> {
+        const moment = require('moment');
+        const sql = `
+            UPDATE answer
+            SET history = history || '[{"quiz_uuid":"${quiz_uuid}", "ans": "${ans}", "ans_time":"${moment().format()}"}]'::jsonb
+                , is_correct=${is_correct}
+                , last_update = now()
+            WHERE 
+                ref_question_id = ${question_id}
+                AND
+                ref_member_id = ${member_id}
+            RETURNING * ;
+        `;
+
+        console.log(sql);
+        return connection.oneOrNone(sql);
+    }
+
+    public static createUserAnswer(quiz_uuid: string, question_id: string, member_id: string, ans: string, is_correct:boolean): Promise<any> {
         const moment = require('moment');
         const sql = `
             INSERT INTO answer (ref_question_id, ref_member_id, answer, is_correct, last_update, history) VALUES
