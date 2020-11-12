@@ -52,9 +52,9 @@ subRouter.get('/startQuiz', async ctx => {
         let quiz = await QuizHelper.getQuiz(userInfo.id, quizsheet_uuid);
         const quiz_uqid = uuidv4() ;
         if (!quiz) {
-            let quiz = await QuizHelper.newQuiz(userInfo.id, quizsheet_uuid, quiz_uqid )
+            quiz = await QuizHelper.newQuiz(userInfo.id, quizsheet_uuid, quiz_uqid )
         } else {
-            let quiz = await QuizHelper.addQuiz(userInfo.id, quizsheet_uuid, quiz_uqid )
+            quiz = await QuizHelper.addQuiz(userInfo.id, quizsheet_uuid, quiz_uqid )
         }
         // console.log(quiz);
         ctx.body = quiz;
