@@ -24,7 +24,7 @@ export class QuizsheetComponent implements OnInit {
     // 但如果是直接開啟 url，就只有 quizsheet uuid，需要再讀取。
     if (!this.currentQuizSheet) {
       this.route.params.subscribe(params => {
-        this.quizsheetUuid = params.qsid;
+        this.quizsheetUuid = params.qs_uuid;
         console.log(this.quizsheetUuid);
         this.quizService.getQuizProgress(this.quizsheetUuid).subscribe( qs => {
           this.currentQuizSheet = qs ;
@@ -33,8 +33,10 @@ export class QuizsheetComponent implements OnInit {
     }
   }
 
-  startQuiz(): void {
-    this.router.navigate(['start'], { relativeTo: this.route});
+  async startQuiz(): Promise<void> {
+    const quiz = await this.quizService.startQuiz(this.currentQuizSheet.quiz_sheet_uuid).toPromise();
+    console.log(quiz);
+    this.router.navigate(['start', quiz.current_uuid], { relativeTo: this.route});
   }
 
 }

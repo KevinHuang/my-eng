@@ -19,11 +19,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'quizsheet/:qsid', component: QuizsheetComponent,
+    path: 'quizsheet/:qs_uuid', component: QuizsheetComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'quizsheet/:qsid/start', component: QuizComponent,
+    path: 'quizsheet/:qs_uuid/start/:quiz_uuid', component: QuizComponent,
     canActivate: [AuthGuard]
   },
   { path: '', redirectTo: '/topic', pathMatch: 'full' },
