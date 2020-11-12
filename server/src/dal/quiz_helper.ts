@@ -127,6 +127,13 @@ export class QuizHelper {
         return connection.oneOrNone(sql, [member_id, quizsheet_uuid]);
     }
 
+    public static getQuizInfo(quiz_uuid: string): Promise<any> {
+        const sql = `select * from quiz where current_uuid=$1`;
+
+        console.log(sql);
+        return connection.oneOrNone(sql, [quiz_uuid]);
+    }
+
     /** 建立一個學生對指定試卷的考試紀錄 */
     public static newQuiz(member_id: number, quizsheet_uuid: string, quiz_uuid: string): Promise<any> {
         const moment = require('moment');

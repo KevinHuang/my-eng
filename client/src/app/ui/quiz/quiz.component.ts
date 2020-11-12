@@ -46,7 +46,9 @@ export class QuizComponent implements OnInit {
 
   setCurrentQ(qIndex): void {
     this.currentIndex = qIndex;
-    if (this.currentIndex > this.questions.length - 1) { this.currentIndex = this.questions.length - 1; }
+    if (this.currentIndex > this.questions.length - 1) {
+      this.router.navigate(['finish'], {relativeTo: this.route});
+    }
     if (this.currentIndex < 0) { this.currentIndex = 0; }
     this.currentQ = this.questions[this.currentIndex];
     const tempOptions: OptionInfo[] = this.currentQ.options;

@@ -36,7 +36,7 @@ export class QuizsheetComponent implements OnInit {
   async startQuiz(): Promise<void> {
     const quiz = await this.quizService.startQuiz(this.currentQuizSheet.quiz_sheet_uuid).toPromise();
     console.log(quiz);
-    this.router.navigate(['start', quiz.current_uuid], { relativeTo: this.route});
+    this.router.navigate(['quiz', quiz.current_uuid], { relativeTo: this.route});
   }
 
 }

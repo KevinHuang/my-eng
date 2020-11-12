@@ -64,6 +64,23 @@ subRouter.get('/startQuiz', async ctx => {
     }
 });
 
+subRouter.get('/getQuizInfo', async ctx => {
+    
+    try {
+        const { quiz_uuid } = ctx.query;
+        if (!quiz_uuid) { throw '沒有 quiz uuid' }
+        const userInfo = ctx.session?.userInfo;
+        let quiz = await QuizHelper.getQuizInfo(quiz_uuid);
+        
+        console.log(quiz);
+        ctx.body = quiz;
+    } catch (error) {
+        console.log(error);
+        ctx.status = 500 ;
+        ctx.body = error ;
+    }
+});
+
 subRouter.get('/getQuestions', async ctx => {
     try {
         const { quizsheet_uuid, quiz_uuid } = ctx.query;

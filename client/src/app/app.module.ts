@@ -28,6 +28,7 @@ import { PkComponent } from './ui/pk/pk.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CheckSignInComponent } from './ui/auth/check-sign-in/check-sign-in.component';
 import { QuizsheetComponent } from './ui/quizsheet/quizsheet.component';
+import { QuizFinishComponent } from './ui/quiz-finish/quiz-finish.component';
 
 
 
@@ -46,7 +47,8 @@ import { QuizsheetComponent } from './ui/quizsheet/quizsheet.component';
     PracticeComponent,
     PkComponent,
     CheckSignInComponent,
-    QuizsheetComponent
+    QuizsheetComponent,
+    QuizFinishComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,15 @@
+<h1>恭喜完成！</h1>
+<mat-divider></mat-divider>
+<h4 class="mt-3">本次作答結果：</h4>
+<h5>總題數： {{ this.totalCount }}</h5>
+<h5>答對數： {{ this.rightCount }}</h5>
+<h5>正確率： {{ this.accuracy }} %</h5>
+
+<button
+    mat-stroked-button
+    color="accent"
+    class="p-3 mt-4"
+    style="width: 100%; font-size: 1.5rem;"
+    (click)="backToQuizsheet();">
+  回到試卷
+</button>

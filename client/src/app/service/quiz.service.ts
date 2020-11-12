@@ -58,6 +58,14 @@ export class QuizService {
     );
   }
 
+  public getQuizInfo(quizUuid: string): Observable<QuizInfo> {
+
+    const url = `${this.config.API_QUIZ_BASE}/getQuizInfo?quiz_uuid=${quizUuid}`;
+    return this.http.get(url).pipe(
+      map(v => (v as QuizInfo))
+    );
+  }
+
   /** 開始一張試卷的測驗 */
   public getQuestions(quizsheetUuid: string, quizUuid: string): Observable<QuestionInfo[]> {
 
