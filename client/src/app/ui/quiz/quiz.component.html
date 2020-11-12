@@ -36,7 +36,8 @@
     <!-- 動作按鈕 -->
     <mat-divider></mat-divider>
     <mat-card-actions class="d-flex justify-content-between">
-      <button mat-button (click)="previousQ()">Privious</button>
+      <button mat-button (click)="previousQ()" *ngIf="this.currentIndex > 0">Privious</button>
+      <div></div>
       <button mat-button (click)="nextQ()" *ngIf="this.currentQ.user_answer">Next</button>
     </mat-card-actions>
   </mat-card>
