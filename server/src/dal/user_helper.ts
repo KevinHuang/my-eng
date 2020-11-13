@@ -62,17 +62,15 @@ export class UserHelper {
                 signin_type= raw.signin_type, 
                 refresh_token= raw.refresh_token, 
                 sso_identity= raw.sso_identity
-            FROM 
-                "member" AS m 
-                INNER JOIN raw_data AS raw 
-                    ON m.user_id = raw.user_id
-            
-            RETURNING member.id
+            FROM raw_data raw
+            WHERE 
+                raw.user_id =  "member".user_id
+            RETURNING id
         )
         
         SELECT * FROM insert_data 
-        UNION
-        SELECT * FROM update_data 
+        UNION 
+        SELECT * FROM update_data
         `;
         // console.log(sql);
         return connection.oneOrNone(sql);
