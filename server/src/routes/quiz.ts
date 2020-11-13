@@ -133,11 +133,6 @@ subRouter.post('/setAnswer', async ctx => {
         } else {
             await QuizHelper.createUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
         }
-        // if (hasAnswered) {
-        //     await QuizHelper.updateUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
-        // } else {
-        //     await QuizHelper.addUserAnswer(quiz_uuid, question_id, userInfo.id, ans, is_correct);
-        // }
         // 5. 更新試卷的答對率
         await QuizHelper.updateQuizStatus(quiz_uuid, quiz.ref_quiz_sheet_id, userInfo.id);
         ctx.body = { result: "OK" };
@@ -147,6 +142,39 @@ subRouter.post('/setAnswer', async ctx => {
         ctx.body = error ;
     }
 });
+
+
+subRouter.get('/getQuestionStatistics', async ctx => {
+    try {
+        const { quizsheet_uuid } = ctx.query;
+        if (!quizsheet_uuid) { throw '沒有 quizsheet uuid' }
+        const userInfo = ctx.session?.userInfo;
+        let questions = await QuizHelper.getQuestionStatistics(userInfo.id, quizsheet_uuid);
+        ctx.body = questions;
+    } catch (error) {
+        console.log(error);
+        ctx.status = 500 ;
+        ctx.body = error ;
+    }
+});
+
+
+subRouter.get('/getQuestionAndAnswers', async ctx => {
+    try {
+        const { quizsheet_uuid } = ctx.query;
+        if (!quizsheet_uuid) { throw '沒有 quizsheet uuid' }
+        const userInfo = ctx.session?.userInfo;
+        let questions = await QuizHelper.getQuestionAndAnswers(userInfo.id, quizsheet_uuid);
+        ctx.body = questions;
+    } catch (error) {
+        console.log(error);
+        ctx.status = 500 ;
+        ctx.body = error ;
+    }
+});
+
+
+
 
 
 export default subRouter ;

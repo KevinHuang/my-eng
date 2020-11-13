@@ -1,46 +1,71 @@
-<div>
-  <!-- 題號 -->
-  <div class="mb-2">
-    <button
-      class="mr-2"
-      *ngFor="let q of this.questions; let i = index"
-      (click)="setCurrentQ(i)"
-      [ngClass]="{ 'bg-warning': this.currentIndex === i, 'bg-success': q.user_answer === q.answer.toString() }"
-    >
-      {{ i + 1 }}
-    </button>
-  </div>
-
-  <mat-card *ngIf="this.currentQ; else emptyQ">
-    <!-- 選項-->
-    <!-- <mat-divider></mat-divider> -->
-
-    <mat-card-content>
-      <!-- 題目內容 -->
-      <mat-card-title>
-        <h6 [innerHTML]="currentQ.content" class="fade show"></h6>
-      </mat-card-title>
-      <!-- <mat-card-subtitle>{{ currentQ.pronunce }}</mat-card-subtitle> -->
-      <div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-2  visible-md"></div>
+    <!-- 考題區-->
+    <div class="*">
+      <!-- 題號 -->
+      <div class="mb-2">
         <button
-          mat-stroked-button
-          *ngFor="let opt of currentQ.randomOtions; let i = index;"
-          class="p-3  col-12 col-sm-6 text-left text-wrap"
-          [ngClass]="{'selected': currentQ.user_answer === opt.value.toString()}"
-          style="font-size: 1.1rem;"
-          (click)="setAnswer(opt)"
-          [innerHTML]="'(' + getOptionText(i+1) + ') ' + opt.text"
-        ></button>
+          class="mr-2"
+          *ngFor="let q of this.questions; let i = index"
+          (click)="setCurrentQ(i)"
+          [ngClass]="{
+            'bg-warning': this.currentIndex === i,
+            'bg-success': q.user_answer === q.answer.toString()
+          }"
+        >
+          {{ i + 1 }}
+        </button>
       </div>
-    </mat-card-content>
-    <!-- 動作按鈕 -->
-    <mat-divider></mat-divider>
-    <mat-card-actions class="d-flex justify-content-between">
-      <button mat-raised-button (click)="previousQ()" *ngIf="this.currentIndex > 0">Privious</button>
-      <div></div>
-      <button mat-raised-button (click)="nextQ()" color="primary" *ngIf="this.currentQ.user_answer">Next</button>
-    </mat-card-actions>
-  </mat-card>
+
+      <mat-card *ngIf="this.currentQ; else emptyQ">
+        <!-- 選項-->
+        <!-- <mat-divider></mat-divider> -->
+
+        <mat-card-content>
+          <!-- 題目內容 -->
+          <mat-card-title>
+            <h6 [innerHTML]="currentQ.content" class="fade show"></h6>
+          </mat-card-title>
+          <!-- <mat-card-subtitle>{{ currentQ.pronunce }}</mat-card-subtitle> -->
+          <div>
+            <button
+              mat-stroked-button
+              *ngFor="let opt of currentQ.randomOtions; let i = index"
+              class="p-3 col-12 col-sm-6 text-left text-wrap"
+              [ngClass]="{
+                selected: currentQ.user_answer === opt.value.toString()
+              }"
+              style="font-size: 1.1rem"
+              (click)="setAnswer(opt)"
+              [innerHTML]="'(' + getOptionText(i + 1) + ') ' + opt.text"
+            ></button>
+          </div>
+        </mat-card-content>
+        <!-- 動作按鈕 -->
+        <mat-divider></mat-divider>
+        <mat-card-actions class="d-flex justify-content-between">
+          <button
+            mat-raised-button
+            (click)="previousQ()"
+            *ngIf="this.currentIndex > 0"
+          >
+            Privious
+          </button>
+          <div></div>
+          <button
+            mat-raised-button
+            (click)="nextQ()"
+            color="primary"
+            *ngIf="this.currentQ.user_answer"
+          >
+            Next
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col-2  visible-md"></div>
+  </div>
 </div>
 
 <ng-template #emptyQ>

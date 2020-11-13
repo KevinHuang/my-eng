@@ -1,4 +1,4 @@
-import { QuizProgressInfo, QuizService } from './../../service/quiz.service';
+import { QuizProgressInfo, QuizService, QuestionStatisticsInfo } from './../../service/quiz.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,6 +12,7 @@ export class QuizsheetComponent implements OnInit {
   quizsheetUuid = '';
   currentQuizSheet: QuizProgressInfo;
   passRate = 0;
+  questionStatistics: QuestionStatisticsInfo[] = [];
 
   constructor(
     private quizService: QuizService,
@@ -31,12 +32,44 @@ export class QuizsheetComponent implements OnInit {
           this.currentQuizSheet = qs ;
           if (this.currentQuizSheet) {
             if (this.currentQuizSheet.question_total_count > 0) {
-              this.passRate = Math.ceil( this.currentQuizSheet.question_right_count * 100 * 10 / this.currentQuizSheet.question_total_count) / 10;
+              this.passRate = Math.ceil(
+                this.currentQuizSheet.question_right_count * 100 * 10 / this.currentQuizSheet.question_total_count) / 10;
             }
+            // 取得這張考卷的
+            this.getQuestionStatistics().then();
+            // this.quizService.getQuestionAndAnswers(this.currentQuizSheet.quiz_sheet_uuid).subscribe(questions => {
+            //   this.questionStatistics = questions ;
+            // });
           }
         });
       });
+    } else {
+      await this.getQuestionStatistics();
     }
+  }
+
+  async getQuestionStatistics(): Promise<void> {
+    this.questionStatistics = await this.quizService.getQuestionAndAnswers(this.currentQuizSheet.quiz_sheet_uuid).toPromise();
+    console.log(this.questionStatistics);
+    this.questionStatistics.forEach( q => {
+      if (q.history) {
+        let count = 0;
+        let rightCount = 0;
+        q.history.forEach( his => {
+          count += 1 ;
+          if (his.ans.toString() === q.answer.toString()) {
+            rightCount += 1;
+          }
+        });
+        q.total_count = count ;
+        q.right_count = rightCount ;
+        q.correct_rate = (q.total_count === 0 ? 0 : Math.ceil( q.right_count * 100 * 10 / q.total_count) / 10);
+      } else {
+        q.total_count = 0;
+        q.right_count = 0;
+        q.correct_rate = 0;
+      }
+    })
   }
 
   async startQuiz(): Promise<void> {

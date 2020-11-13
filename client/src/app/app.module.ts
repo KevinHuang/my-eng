@@ -29,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CheckSignInComponent } from './ui/auth/check-sign-in/check-sign-in.component';
 import { QuizsheetComponent } from './ui/quizsheet/quizsheet.component';
 import { QuizFinishComponent } from './ui/quiz-finish/quiz-finish.component';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -63,7 +64,8 @@ import { QuizFinishComponent } from './ui/quiz-finish/quiz-finish.component';
     MatCardModule,
     MatProgressBarModule,
     MatMenuModule,
-    MatExpansionModule
+    MatExpansionModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

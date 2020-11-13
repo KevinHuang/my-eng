@@ -157,7 +157,7 @@ export class QuizHelper {
                 '${quiz_uuid}' as current_uuid,
                 q.q_count total_count,
                 0 as right_count,
-                '[{"uuid" : "${quiz_uuid}", "occur_at": "${moment().format()}"}]'::jsonb ,
+                '[{"uuid" : "${quiz_uuid}", "occur_at": "${moment().format()}", "right_count": 0 }]'::jsonb ,
                 now() as last_update
             FROM q
             RETURNING * ;
@@ -173,7 +173,7 @@ export class QuizHelper {
         const sql = `
             UPDATE public.quiz
             SET current_uuid = '${quiz_uuid}',
-                history = history || '[{"uuid": "${quiz_uuid}", "occur_at" : "${moment().format()}"}]'::jsonb ,
+                history = history || '[{"uuid": "${quiz_uuid}", "occur_at" : "${moment().format()}", "right_count" : 0 }]'::jsonb ,
                 last_update = now()
             WHERE
                 ref_member_id = ${member_id} 
@@ -278,6 +278,7 @@ export class QuizHelper {
                     '${ans}'::jsonb)
                 , is_correct=${is_correct}
                 , last_update = now()
+                , answer = '${ans}'
             WHERE 
                 ans.ref_question_id = ${question_id}
                 AND
@@ -296,6 +297,7 @@ export class QuizHelper {
             SET history = history || '[{"quiz_uuid":"${quiz_uuid}", "ans": "${ans}", "ans_time":"${moment().format()}"}]'::jsonb
                 , is_correct=${is_correct}
                 , last_update = now()
+                , answer = '${ans}'
             WHERE 
                 ref_question_id = ${question_id}
                 AND
@@ -324,28 +326,21 @@ export class QuizHelper {
         const moment = require('moment');
         const sql = `
         WITH answer_status AS (
-            SELECT 
-                ${quizsheet_id}::bigint AS quiz_sheet_id,
-                ${member_id}::bigint AS member_id,
-                A.total_question_count,
-                B.right_count
-            FROM (
-                select 
-                    count(question.id) as total_question_count
-                from 
-                    question 
-                where
-                    ref_quiz_sheet_id = ${quizsheet_id} ) AS A
-            CROSS JOIN
-                (
-                select 
-                    count(id) total_count,
-                    sum( case when is_correct then 1 else 0 end ) as right_count
-                from answer ans,
-                    jsonb_array_elements(history)
-                where
-                    value ->> 'quiz_uuid'='${quiz_uuid}'
-                    AND ref_member_id = ${member_id} ) AS B
+            select 
+                ans.ref_member_id member_id,
+                q.ref_quiz_sheet_id quiz_sheet_id,
+                sum( case when ans.is_correct then 1 else 0 end) as right_count,
+                count(q.id) as total_question_count
+            from
+                answer ans inner join 
+                question q on ans.ref_question_id = q.id
+            where
+                ans.ref_member_id = ${member_id}
+                and 
+                ref_quiz_sheet_id = ${quizsheet_id}
+            group by 
+                q.ref_quiz_sheet_id,
+                ans.ref_member_id
         ),
             
         update_data AS (
@@ -369,6 +364,67 @@ export class QuizHelper {
 
         console.log(sql);
         return connection.oneOrNone(sql);
+    }
+
+    public static getQuestionAndAnswers(member_id: number, quizsheet_uuid: string): Promise<any> {
+        const sql = `
+            SELECT 
+                q.*,
+                ans.is_correct,
+                ans.history
+            FROM
+                ( 
+                    select * from question where ref_quiz_sheet_id in (
+                        select id from quiz_sheet where uuid = $1
+                    )
+                ) as q 
+                INNER JOIN (
+                    select * from answer where ref_member_id = $2
+                ) AS ans on ans.ref_question_id = q.id
+            ORDER BY q.q_order
+        `;
+
+        console.log(sql);
+        return connection.many(sql, [quizsheet_uuid, member_id]);
+    }
+
+
+    public static getQuestionStatistics(member_id: number, quizsheet_uuid: string): Promise<any> {
+        const sql = `
+        SELECT 
+            q.*,
+            summary.total_count,
+            summary.right_count
+        FROM
+            (
+                SELECT
+                    ref_question_id,
+                    count(id) as total_count,
+                    sum(case WHEN is_correct THEN 1 ELSE 0 END) as right_count
+                FROM
+                    (
+                    select 
+                        answer.id, 
+                        ref_question_id, 
+                        jsonb_array_elements(history) ->> 'ans' as user_ans,
+                        q.answer,
+                        (jsonb_array_elements(history) ->> 'ans' = q.answer::text) as is_correct
+                    FROM
+                        answer 
+                        INNER JOIN question q ON q.id = answer.ref_question_id
+                    WHERE
+                        q.ref_quiz_sheet_id in (
+                                SELECT id FROM quiz_sheet WHERE uuid= $1
+                        )
+                        and ref_member_id = $2
+                    ) as A
+                GROUP BY 
+                    ref_question_id
+            ) AS summary 
+            INNER JOIN question q on q.id = summary.ref_question_id
+        `;
+        console.log(sql);
+        return connection.many(sql, [quizsheet_uuid, member_id]);
     }
 
 

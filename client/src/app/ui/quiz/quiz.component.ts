@@ -48,6 +48,7 @@ export class QuizComponent implements OnInit {
     this.currentIndex = qIndex;
     if (this.currentIndex > this.questions.length - 1) {
       this.router.navigate(['finish'], {relativeTo: this.route});
+      return ;  // 不要再往下執行
     }
     if (this.currentIndex < 0) { this.currentIndex = 0; }
     this.currentQ = this.questions[this.currentIndex];

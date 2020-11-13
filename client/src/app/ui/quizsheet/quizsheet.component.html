@@ -1,30 +1,86 @@
-<a mat-list-item
-    [routerLink]="['/topic']"
-    > &lt; &nbsp;&nbsp; 主題清單</a>
-<h2 class="pt-3">
-  <div class="d-flex flex-row">
-    <span class="mr-4">{{ this.currentQuizSheet ? this.currentQuizSheet.quiz_sheet_name : '' }}</span>
-    <mat-icon *ngIf="this.currentQuizSheet ? this.currentQuizSheet.is_pass : false" class="white-icon" style="font-size: 2rem;">check_circle</mat-icon>
-  </div>
-</h2>
-<div class="d-flex flex-row align-items-center">
-  <div class="p-2 d-flex flex-column col-4">
-    <h6>總題數：{{this.currentQuizSheet ? this.currentQuizSheet.question_total_count : '' }}</h6>
-    <h6>答對數：{{this.currentQuizSheet ? this.currentQuizSheet.question_right_count : '' }}</h6>
-    <h6>測驗數：{{this.currentQuizSheet ? this.currentQuizSheet.history.length : '' }}</h6>
-  </div>
-
-  <div class="p-2 col-8 d-flex flex-row justify-content-between">
-    <!-- <button mat-stroked-button class="mr-1" color="accent">錯題練習</button> -->
-    <div></div>
-
-    <button mat-stroked-button color="primary"  class="p-3" style="font-size: 1.1rem;" (click)="startQuiz()">
-      <h2 style="color: green;">
-        {{ passRate }} %
+<div class="container">
+  <div class="row">
+    <div class="col-md-2 col-lg-3 visible-lg"></div>
+    <div class="col-md-8">
+      <a mat-list-item [routerLink]="['/topic']"> &lt; &nbsp;&nbsp; 主題清單</a>
+      <h2 class="pt-3">
+        <div class="d-flex flex-row">
+          <span class="mr-4">{{
+            this.currentQuizSheet ? this.currentQuizSheet.quiz_sheet_name : ""
+          }}</span>
+          <mat-icon
+            *ngIf="this.currentQuizSheet ? this.currentQuizSheet.is_pass : false"
+            class="white-icon"
+            style="font-size: 2rem"
+            >check_circle</mat-icon
+          >
+        </div>
       </h2>
-      開始測驗
-    </button>
+      <div class="d-flex flex-row align-items-center">
+        <div class="p-2 d-flex flex-column col-4">
+          <h6>
+            總題數：{{
+              this.currentQuizSheet
+                ? this.currentQuizSheet.question_total_count
+                : ""
+            }}
+          </h6>
+          <h6>
+            答對數：{{
+              this.currentQuizSheet
+                ? this.currentQuizSheet.question_right_count
+                : ""
+            }}
+          </h6>
+          <h6>
+            測驗數：{{
+              this.currentQuizSheet ? this.currentQuizSheet.history.length : ""
+            }}
+          </h6>
+        </div>
+
+        <div class="p-2 col-8 d-flex flex-row justify-content-between">
+          <!-- <button mat-stroked-button class="mr-1" color="accent">錯題練習</button> -->
+          <div></div>
+
+          <button
+            mat-stroked-button
+            color="primary"
+            class="p-3"
+            style="font-size: 1.1rem"
+            (click)="startQuiz()"
+          >
+            <h2 style="color: green">{{ passRate }} %</h2>
+            開始測驗
+          </button>
+        </div>
+      </div>
+      <!-- 橫隔線-->
+      <mat-divider class="mt-2"></mat-divider>
+      <!-- 題目統計區 -->
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col" class="col-8">Question</th>
+          <th scope="col" class="col-2">pct</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let q of questionStatistics; let i = index">
+          <td style="text-align: center;">
+            <span>{{i+1}}</span>
+            <div [ngClass]="{ 'text-success': q.is_correct, 'text-danger': !q.is_correct}">({{ q.is_correct ? 'O' : 'X'  }})</div>
+          </td>
+          <td  class="col-8" [innerHTML]="q.content.substr(0, 40) + '...'" >
+          </td>
+          <td style="text-align: center;">{{ q.correct_rate }}％</td>
+        </tr>
+      </tbody>
+      </table>
+
+
+    </div>
+    <div class="col-md-2 col-lg-3 visible-lg"></div>
   </div>
 </div>
-<mat-divider class="mt-2"></mat-divider>
-

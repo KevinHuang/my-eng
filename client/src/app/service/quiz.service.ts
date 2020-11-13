@@ -87,6 +87,13 @@ export class QuizService {
       map(v => (v as QuestionInfo[]))
     );
   }
+
+  public getQuestionAndAnswers(quizsheetUuid: string): Observable<QuestionStatisticsInfo[]> {
+    const url = `${this.config.API_QUIZ_BASE}/getQuestionAndAnswers?quizsheet_uuid=${quizsheetUuid}`;
+    return this.http.get(url).pipe(
+      map(v => (v as QuestionStatisticsInfo[]))
+    );
+  }
 }
 
 export interface TopicInfo {
@@ -138,6 +145,14 @@ export interface QuestionInfo {
   quiz_uuid: string;
   user_answer: string; // 可能是填充題;
   randomOtions: OptionInfo[];   // 暫存用戶端混亂過的選項清單
+}
+
+export interface QuestionStatisticsInfo extends QuestionInfo {
+  history: any[];
+  is_correct: boolean;
+  total_count: number; // 總答題次數，前端運算用
+  right_count: number; // 總答對次數，前端運算用
+  correct_rate: number; // 正答率，前端運算用
 }
 
 export interface OptionInfo {

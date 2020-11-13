@@ -49,11 +49,11 @@
             </mat-expansion-panel-header>
             <div>
               <ol>
-                <li *ngFor="let qs of topic.quiz_progress">
+                <li *ngFor="let qs of topic.quiz_progress" style="margin-left: -20px;">
                   <a mat-flat-button (click)="showQuizSheet(qs)" style="font-size: 1.1rem;;"
                     >{{ qs.quiz_sheet_name }} ( {{ qs.question_right_count }}/{{ qs.question_total_count }} )
+                    <mat-icon *ngIf="qs.is_pass" class="green-icon" style="color:green; font-size: medium;" >check_circle</mat-icon>
                   </a>
-                  <mat-icon *ngIf="qs.is_pass" class="green-icon" style="color:green; font-size: small;" >check_circle</mat-icon>
                 </li>
               </ol>
             </div>
