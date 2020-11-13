@@ -1,3 +1,4 @@
+import { QuestionExplainComponent } from './ui/question-explain/question-explain.component';
 import { QuizFinishComponent } from './ui/quiz-finish/quiz-finish.component';
 import { QuizsheetComponent } from './ui/quizsheet/quizsheet.component';
 import { AuthGuard } from './ui/auth/auth.guard';
@@ -29,6 +30,10 @@ const routes: Routes = [
   },
   {
     path: 'quizsheet/:qs_uuid/quiz/:quiz_uuid/finish', component: QuizFinishComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'quizsheet/:qs_uuid/question/:question_id', component: QuestionExplainComponent,
     canActivate: [AuthGuard]
   },
   { path: '', redirectTo: '/topic', pathMatch: 'full' },

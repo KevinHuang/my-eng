@@ -5,3 +5,8 @@
 .white-icon svg {
   fill: green;
 }
+
+tr.mi:hover {
+  cursor: pointer;
+  color: blue ;
+}

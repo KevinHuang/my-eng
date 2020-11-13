@@ -1,0 +1,39 @@
+<a mat-list-item [routerLink]="['/quizsheet', quizsheetUuid]"> &lt; &nbsp;&nbsp; 回上一頁</a>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-2  visible-md"></div>
+    <!-- 考題區-->
+    <div class="*">
+      <mat-card *ngIf="this.currentQ">
+        <!-- 選項-->
+        <!-- <mat-divider></mat-divider> -->
+
+        <mat-card-content>
+          <!-- 題目內容 -->
+          <mat-card-title>
+            <h6 [innerHTML]="currentQ.content" class="fade show"></h6>
+          </mat-card-title>
+          <!-- <mat-card-subtitle>{{ currentQ.pronunce }}</mat-card-subtitle> -->
+          <mat-divider></mat-divider>
+          <div>
+            <div [innerHTML]="'(解): &nbsp;&nbsp;' + correctAnswer"
+            class="p-2 col-12 col-sm-6 text-left text-wrap"
+            style="font-size: 1.1rem;"></div>
+            <div [innerHTML]="'(你): &nbsp;&nbsp;' + userAnswer"
+            class="p-2 col-12 col-sm-6 text-left text-wrap"
+            style="font-size: 1.1rem;"></div>
+          </div>
+          <mat-divider></mat-divider>
+          <div style="font-size: 1.1rem;" class="mt-2">[解說]：</div>
+          <div [innerHTML]="currentQ.explain"
+          class="p-2 col-12"></div>
+        </mat-card-content>
+        <!-- 動作按鈕 -->
+
+
+      </mat-card>
+    </div>
+    <div class="col-2  visible-md"></div>
+  </div>
+</div>

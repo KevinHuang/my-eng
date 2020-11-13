@@ -69,13 +69,18 @@ export class QuizsheetComponent implements OnInit {
         q.right_count = 0;
         q.correct_rate = 0;
       }
-    })
+    });
   }
 
   async startQuiz(): Promise<void> {
     const quiz = await this.quizService.startQuiz(this.currentQuizSheet.quiz_sheet_uuid).toPromise();
     console.log(quiz);
     this.router.navigate(['quiz', quiz.current_uuid], { relativeTo: this.route});
+  }
+
+  showQuestionExplain(q: QuestionStatisticsInfo): void {
+    console.log(q);
+    this.router.navigate(['question', q.id], {relativeTo: this.route});
   }
 
 }

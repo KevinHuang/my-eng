@@ -371,7 +371,8 @@ export class QuizHelper {
             SELECT 
                 q.*,
                 ans.is_correct,
-                ans.history
+                ans.history,
+                ans.answer user_answer
             FROM
                 ( 
                     select * from question where ref_quiz_sheet_id in (

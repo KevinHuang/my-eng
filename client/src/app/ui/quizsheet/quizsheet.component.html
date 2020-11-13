@@ -67,7 +67,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let q of questionStatistics; let i = index">
+        <tr *ngFor="let q of questionStatistics; let i = index"
+            class="mi"
+            (click)="showQuestionExplain(q)">
           <td style="text-align: center;">
             <span>{{i+1}}</span>
             <div [ngClass]="{ 'text-success': q.is_correct, 'text-danger': !q.is_correct}">({{ q.is_correct ? 'O' : 'X'  }})</div>

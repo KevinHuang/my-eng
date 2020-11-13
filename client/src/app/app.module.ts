@@ -30,6 +30,7 @@ import { CheckSignInComponent } from './ui/auth/check-sign-in/check-sign-in.comp
 import { QuizsheetComponent } from './ui/quizsheet/quizsheet.component';
 import { QuizFinishComponent } from './ui/quiz-finish/quiz-finish.component';
 import { CommonModule } from '@angular/common';
+import { QuestionExplainComponent } from './ui/question-explain/question-explain.component';
 
 
 
@@ -49,7 +50,8 @@ import { CommonModule } from '@angular/common';
     PkComponent,
     CheckSignInComponent,
     QuizsheetComponent,
-    QuizFinishComponent
+    QuizFinishComponent,
+    QuestionExplainComponent
   ],
   imports: [
     BrowserModule,
