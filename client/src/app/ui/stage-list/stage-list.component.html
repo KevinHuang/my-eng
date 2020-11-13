@@ -9,7 +9,12 @@
       <mat-card class="example-card topic">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{ topic.topic_name }}</mat-card-title>
+          <mat-card-title>
+            <div class="d-flex d-row align-items-center">
+              <span class="mr-4">{{ topic.topic_name }}</span>
+              <mat-icon *ngIf="topic.quiz_sheet_pass_percent > 99" class="green-icon" style="color:green;" >check_circle</mat-icon>
+            </div>
+          </mat-card-title>
           <!-- <mat-card-subtitle>{{ topic.subtitle }}</mat-card-subtitle> -->
         </mat-card-header>
         <!-- <img
@@ -29,11 +34,15 @@
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <div class="expansion_panel_full_progress">
-                  完成單元 ( {{ topic.quiz_sheet_pass_count }} /
-                  {{ topic.quiz_progress.length }} ):
+                  <div class="d-flex flex-row justify-content-between">
+                    <h6>完成單元 ( {{ topic.quiz_sheet_pass_count }} /
+                  {{ topic.quiz_progress.length }} ) :</h6>
+                  <div></div>
+
+                </div>
                   <mat-progress-bar
                     mode="determinate"
-                    value="40"
+                    value="{{ topic.quiz_sheet_pass_percent}}"
                   ></mat-progress-bar>
                 </div>
               </mat-panel-title>
@@ -41,10 +50,10 @@
             <div>
               <ol>
                 <li *ngFor="let qs of topic.quiz_progress">
-                  <a mat-flat-button (click)="showQuizSheet(qs)"
-                    >{{ qs.quiz_sheet_name }} ( {{ qs.question_right_count }} /
-                    {{ qs.question_total_count }} )
+                  <a mat-flat-button (click)="showQuizSheet(qs)" style="font-size: 1.1rem;;"
+                    >{{ qs.quiz_sheet_name }} ( {{ qs.question_right_count }}/{{ qs.question_total_count }} )
                   </a>
+                  <mat-icon *ngIf="qs.is_pass" class="green-icon" style="color:green; font-size: small;" >check_circle</mat-icon>
                 </li>
               </ol>
             </div>

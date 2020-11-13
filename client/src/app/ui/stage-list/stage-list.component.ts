@@ -59,9 +59,11 @@ export class StageListComponent implements OnInit {
           rightCount += (quizProgress.is_pass ? 1 : 0);
         });
         topic.quiz_sheet_pass_count = rightCount ;  // 通過的試卷數
+        topic.quiz_sheet_pass_percent = Math.ceil( topic.quiz_sheet_pass_count * 100 * 10 / topic.quiz_progress.length ) / 10;
       } else {
         topic.quiz_progress = [];
         topic.quiz_sheet_pass_count = 0;
+        topic.quiz_sheet_pass_percent = 0;
       }
     });
   }

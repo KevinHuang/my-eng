@@ -97,6 +97,7 @@ export interface TopicInfo {
   topic_uuid: string;
   quiz_progress: QuizProgressInfo[];  // 前端運算用
   quiz_sheet_pass_count: number;    // 前端運算用
+  quiz_sheet_pass_percent: number;    // 前端運算用
 }
 
 export interface QuizProgressInfo {

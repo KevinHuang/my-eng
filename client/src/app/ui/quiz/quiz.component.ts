@@ -82,6 +82,15 @@ export class QuizComponent implements OnInit {
     await this.quizService.setAnswer(this.quizsheetUuid, this.quizUuid, this.currentQ.id.toString(), opt.value.toString()).toPromise();
     this.currentQ.user_answer = opt.value.toString() ;
   }
+
+  getOptionText(i: number): string {
+    let result = '';
+    if (i === 1) { result = 'A'; }
+    if (i === 2) { result = 'B'; }
+    if (i === 3) { result = 'C'; }
+    if (i === 4) { result = 'D'; }
+    return result ;
+  }
 }
 
 

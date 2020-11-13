@@ -29,16 +29,16 @@
           [ngClass]="{'selected': currentQ.user_answer === opt.value.toString()}"
           style="font-size: 1.1rem;"
           (click)="setAnswer(opt)"
-          [innerHTML]="'(' + (i+1) + ') ' + opt.text"
+          [innerHTML]="'(' + getOptionText(i+1) + ') ' + opt.text"
         ></button>
       </div>
     </mat-card-content>
     <!-- 動作按鈕 -->
     <mat-divider></mat-divider>
     <mat-card-actions class="d-flex justify-content-between">
-      <button mat-button (click)="previousQ()" *ngIf="this.currentIndex > 0">Privious</button>
+      <button mat-raised-button (click)="previousQ()" *ngIf="this.currentIndex > 0">Privious</button>
       <div></div>
-      <button mat-button (click)="nextQ()" *ngIf="this.currentQ.user_answer">Next</button>
+      <button mat-raised-button (click)="nextQ()" color="primary" *ngIf="this.currentQ.user_answer">Next</button>
     </mat-card-actions>
   </mat-card>
 </div>

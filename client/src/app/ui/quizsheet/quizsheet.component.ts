@@ -11,6 +11,7 @@ export class QuizsheetComponent implements OnInit {
 
   quizsheetUuid = '';
   currentQuizSheet: QuizProgressInfo;
+  passRate = 0;
 
   constructor(
     private quizService: QuizService,
@@ -28,6 +29,11 @@ export class QuizsheetComponent implements OnInit {
         console.log(this.quizsheetUuid);
         this.quizService.getQuizProgress(this.quizsheetUuid).subscribe( qs => {
           this.currentQuizSheet = qs ;
+          if (this.currentQuizSheet) {
+            if (this.currentQuizSheet.question_total_count > 0) {
+              this.passRate = Math.ceil( this.currentQuizSheet.question_right_count * 100 * 10 / this.currentQuizSheet.question_total_count) / 10;
+            }
+          }
         });
       });
     }
