@@ -29,6 +29,9 @@ export class ConfigService {
   public get API_QUIZ_BASE(): string {
     return `${this.API_BASE}/quiz`;
   }
+  public get API_GROUP_BASE(): string {
+    return `${this.API_BASE}/group`;
+  }
 
 
   public get DSNS_HOST(): string {

@@ -63,4 +63,8 @@ export class AppComponent implements OnInit {
     window.location.href = '/';
   }
 
+  addGroup(): void {
+    this.router.navigate(['/addGroup']);
+  }
+
 }

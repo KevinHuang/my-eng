@@ -25,6 +25,10 @@
         <mat-icon>login</mat-icon>
         <span>sign in</span>
       </button>
+      <button mat-menu-item (click)="addGroup()" *ngIf="hasSignIn">
+        <mat-icon></mat-icon>
+        <span>Add Group</span>
+      </button>
       <button mat-menu-item (click)="signOut()" *ngIf="hasSignIn">
         <mat-icon></mat-icon>
         <span>sign out</span>

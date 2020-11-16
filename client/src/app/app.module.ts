@@ -13,6 +13,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatInputModule} from '@angular/material/input';
+
 
 
 
@@ -31,6 +33,8 @@ import { QuizsheetComponent } from './ui/quizsheet/quizsheet.component';
 import { QuizFinishComponent } from './ui/quiz-finish/quiz-finish.component';
 import { CommonModule } from '@angular/common';
 import { QuestionExplainComponent } from './ui/question-explain/question-explain.component';
+import { AddGroupComponent } from './ui/add-group/add-group.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -51,7 +55,8 @@ import { QuestionExplainComponent } from './ui/question-explain/question-explain
     CheckSignInComponent,
     QuizsheetComponent,
     QuizFinishComponent,
-    QuestionExplainComponent
+    QuestionExplainComponent,
+    AddGroupComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +72,8 @@ import { QuestionExplainComponent } from './ui/question-explain/question-explain
     MatProgressBarModule,
     MatMenuModule,
     MatExpansionModule,
+    MatInputModule,
+    FormsModule,
     CommonModule
   ],
   providers: [],

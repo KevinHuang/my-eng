@@ -27,6 +27,10 @@ export class StageListComponent implements OnInit {
   // tslint:disable-next-line:typedef
   async ngOnInit() {
     this.topics = await this.quizService.getMyTopics().toPromise();
+    if (this.topics.length < 1) {
+      this.router.navigate(['addGroup']);
+      return ;
+    }
     this.quizsheets = await this.quizService.getMyQuizProgress().toPromise();
     this.parseQuizSheets();
     this.parseTopics();
