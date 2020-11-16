@@ -14,6 +14,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatInputModule} from '@angular/material/input';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 
@@ -35,6 +37,8 @@ import { CommonModule } from '@angular/common';
 import { QuestionExplainComponent } from './ui/question-explain/question-explain.component';
 import { AddGroupComponent } from './ui/add-group/add-group.component';
 import { FormsModule } from '@angular/forms';
+import { AddGroupConfirmDialogComponent } from './ui/add-group/add-group-confirm-dialog/add-group-confirm-dialog.component';
+
 
 
 
@@ -56,7 +60,8 @@ import { FormsModule } from '@angular/forms';
     QuizsheetComponent,
     QuizFinishComponent,
     QuestionExplainComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    AddGroupConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +78,7 @@ import { FormsModule } from '@angular/forms';
     MatMenuModule,
     MatExpansionModule,
     MatInputModule,
+    MatDialogModule,
     FormsModule,
     CommonModule
   ],

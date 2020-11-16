@@ -36,7 +36,7 @@ routerUser.get('/getMyGroups', async ctx => {
 routerUser.post('/removeGroup', async ctx => {
     try {
         const userInfo = ctx.session?.userInfo;
-        const { group_id } = ctx.query;
+        const { group_id } = ctx.request.body;
         if (!group_id) { throw '沒有 group_id' }
         await LearnGroupHelper.remove_group(userInfo.id, group_id, 'student');
         ctx.body = { result: "OK" }

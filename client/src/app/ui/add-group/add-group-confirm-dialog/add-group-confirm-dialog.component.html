@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>您要離開「{{ grp.group_name }}」群組嗎？</h1>
+<div mat-dialog-content>
+  <p>若離開後，可再由下方輸入群組代碼重新加入。</p>
+  <!-- <mat-form-field>
+    <input matInput [(ngModel)]="data.email">
+  </mat-form-field> -->
+</div>
+<div mat-dialog-actions class="d-flex flex-row justify-content-between">
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>No,我留下</button>
+  <button mat-button [mat-dialog-close]="this.grp" >Yes,還是要離開</button>
+</div>

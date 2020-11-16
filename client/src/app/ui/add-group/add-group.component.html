@@ -3,10 +3,12 @@
   <div class="row">
     <div class="d-flex flex-column align-items-center mt-4 p-4">
       <div class="mb-4" style="font-size: 1.5rem; text-align: left;">{{ groupLabels }}</div>
+      <!-- 群組清單 -->
       <div *ngFor="let grp of groups" class="d-flex flex-row align-items-center">
-        <h3>{{ grp.group_name }}</h3>
+        <a [routerLink]="['/topic']"><h3>{{ grp.group_name }}</h3></a>
         <mat-icon (click)="removeGroup(grp)"  class="ml-4 text-danger" > remove_circle</mat-icon>
       </div>
+      <!-- 新增群組 -->
       <div class="d-flex flex-row justify-content-center mt-4 card p-4">
         <mat-form-field class="example-full-width">
           <mat-label>群組代碼：</mat-label>
