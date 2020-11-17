@@ -78,7 +78,7 @@ export class StageListComponent implements OnInit {
   // }
 
   showQuizSheet(qs: QuizProgressInfo): void {
-    console.log(qs);
+    // console.log(qs);
     this.router.navigate([ 'quizsheet', qs.quiz_sheet_uuid ]);
   }
 

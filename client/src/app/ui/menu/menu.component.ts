@@ -25,13 +25,13 @@ export class MenuComponent implements OnInit {
       if (evt instanceof NavigationEnd) {
         // console.log(evt.url);
         this.currentUrl = evt.url ;
-        console.log(this.currentUrl);
+        // console.log(this.currentUrl);
       }
     });
   }
 
   showMenu(menuPath: string): void {
-    console.log(menuPath);
+    // console.log(menuPath);
     this.menuSelected.emit(menuPath);
     this.router.navigate([menuPath]);
   }

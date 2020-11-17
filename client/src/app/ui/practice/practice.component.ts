@@ -25,17 +25,17 @@ export class PracticeComponent implements OnInit {
     // 1. 取得 stage ID
     this.route.params.subscribe(params => {
       // tslint:disable-next-line:no-string-literal
-      console.log(params);
+      // console.log(params);
       this.stageID = params['stageid'];
 
       // 2. 取得題目清單
       this.vocQuestions = this.randomQ(this.vocService.getVocs(this.stageID));
-      console.log(this.vocQuestions);
+      // console.log(this.vocQuestions);
       this.setCurrentQ(0);
 
       // 3. 取得練習結果
 
-      console.log(this.stageID);
+      // console.log(this.stageID);
     });
   }
 
@@ -56,8 +56,8 @@ export class PracticeComponent implements OnInit {
       const tempOptions: string[] = [this.currentQ.translate[this.currentLang]];
       // 從題目裡任取另外三題
     }
-    console.log(this.currentIndex);
-    console.log(this.currentQ);
+    // console.log(this.currentIndex);
+    // console.log(this.currentQ);
   }
 
 }

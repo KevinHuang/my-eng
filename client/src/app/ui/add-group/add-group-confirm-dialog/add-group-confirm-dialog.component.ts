@@ -21,7 +21,7 @@ export class AddGroupConfirmDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.grp = this.data ;
-    console.log(this.grp);
+    // console.log(this.grp);
   }
 
   onNoClick(): void {

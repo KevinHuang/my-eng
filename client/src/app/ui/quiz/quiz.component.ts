@@ -29,11 +29,11 @@ export class QuizComponent implements OnInit {
       this.quizsheetUuid = params.qs_uuid;
       this.quizUuid = params.quiz_uuid;
 
-      console.log(this.quizsheetUuid, this.quizUuid);
+      // console.log(this.quizsheetUuid, this.quizUuid);
 
       this.quizService.getQuestions(this.quizsheetUuid, this.quizUuid).subscribe(questions => {
         this.questions = questions;
-        console.log(this.questions);
+        // console.log(this.questions);
         if (this.questions.length < 1) {
           alert('此試卷沒有試題');
         } else {
@@ -55,9 +55,9 @@ export class QuizComponent implements OnInit {
     const tempOptions: OptionInfo[] = this.currentQ.options;
     // 混亂選項順序
     this.currentQ.randomOtions = this.randomOptions(this.currentQ.options);
-    console.log(this.currentIndex);
+    // console.log(this.currentIndex);
 
-    console.log(this.currentQ);
+    // console.log(this.currentQ);
   }
 
   randomOptions(options: OptionInfo[]): OptionInfo[] {
@@ -79,7 +79,7 @@ export class QuizComponent implements OnInit {
   }
 
   async setAnswer(opt: OptionInfo): Promise<void> {
-    console.log(opt);
+    // console.log(opt);
     await this.quizService.setAnswer(this.quizsheetUuid, this.quizUuid, this.currentQ.id.toString(), opt.value.toString()).toPromise();
     this.currentQ.user_answer = opt.value.toString() ;
   }

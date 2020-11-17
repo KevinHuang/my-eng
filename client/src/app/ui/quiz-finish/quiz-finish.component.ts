@@ -29,7 +29,7 @@ export class QuizFinishComponent implements OnInit {
       this.quizsheetUuid = params.qs_uuid;
       this.quizUuid = params.quiz_uuid;
 
-      console.log(this.quizsheetUuid, this.quizUuid);
+      // console.log(this.quizsheetUuid, this.quizUuid);
 
       this.quizService.getQuizInfo(this.quizUuid).subscribe( qz => {
         this.quiz = qz ;

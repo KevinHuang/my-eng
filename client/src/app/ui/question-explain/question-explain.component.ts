@@ -27,7 +27,7 @@ export class QuestionExplainComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.quizsheetUuid = params.qs_uuid;
       this.questionId = params.question_id;
-      console.log(this.quizsheetUuid);
+      // console.log(this.quizsheetUuid);
 
       this.quizService.getQuestionAndAnswers(this.quizsheetUuid).subscribe( qs => {
         qs.forEach(q => {
@@ -36,11 +36,11 @@ export class QuestionExplainComponent implements OnInit {
           }
         });
 
-        console.log(this.currentQ);
+        // console.log(this.currentQ);
 
         if (this.currentQ && this.currentQ.history) {
           this.currentQ.options.forEach( opt => {
-            console.log(`${opt.value.toString()} => ${this.currentQ.answer}`);
+            // console.log(`${opt.value.toString()} => ${this.currentQ.answer}`);
             if (opt.value.toString() === this.currentQ.answer.toString()) {
               this.correctAnswer = opt.text ;
             }
@@ -50,8 +50,8 @@ export class QuestionExplainComponent implements OnInit {
           });
         }
 
-        console.log(` user Answer: ${this.userAnswer}`);
-        console.log(` correct Answer: ${ this.correctAnswer}`);
+        // console.log(` user Answer: ${this.userAnswer}`);
+        // console.log(` correct Answer: ${ this.correctAnswer}`);
 
       });
     });
