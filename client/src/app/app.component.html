@@ -49,7 +49,7 @@
       fixedTopGap="56"
       style="width: 200px"
     >
-      <app-menu [hasSignIn]= "hasSignIn" ></app-menu>
+      <app-menu [hasSignIn]= "hasSignIn" (menuSelected)="snav.toggle()" ></app-menu>
       <!-- <mat-nav-list>
         <a mat-list-item routerLink="." *ngFor="let nav of navItems">Item : {{nav}}</a>
       </mat-nav-list> -->

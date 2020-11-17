@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -11,6 +11,8 @@ export class MenuComponent implements OnInit {
   currentUrl = '';
 
   @Input() hasSignIn = false ;
+
+  @Output() menuSelected: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private router: Router
@@ -26,6 +28,12 @@ export class MenuComponent implements OnInit {
         console.log(this.currentUrl);
       }
     });
+  }
+
+  showMenu(menuPath: string): void {
+    console.log(menuPath);
+    this.menuSelected.emit(menuPath);
+    this.router.navigate([menuPath]);
   }
 
 }
